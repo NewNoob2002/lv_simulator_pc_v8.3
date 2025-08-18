@@ -18,7 +18,8 @@
 #include "lv_drivers/sdl/sdl.h"
 
 
-#include "App.h"
+#include "ui.h"
+#include "mcu_define.h"
 /*********************
  *      DEFINES
  *********************/
@@ -35,7 +36,8 @@ static void hal_init(void);
 /**********************
  *  STATIC VARIABLES
  **********************/
-
+SystemInfo_t systemInfo;
+BatteryState batteryState;
 /**********************
  *      MACROS
  **********************/
@@ -71,16 +73,16 @@ int main(int argc, char **argv)
 
   /*Initialize LVGL*/
   lv_init();
-
   /*Initialize the HAL (display, input devices, tick) for LVGL*/
   hal_init();
 
-  App_Init();
+  ui_init(); /*Initialize the UI*/
 
   while(1) {
       /* Periodically call the lv_task handler.
        * It could be done in a timer interrupt or an OS task too.*/
       lv_timer_handler();
+      ui_tick(); /*Call the UI tick function to update the screen*/
       usleep(5 * 1000);
   }
 

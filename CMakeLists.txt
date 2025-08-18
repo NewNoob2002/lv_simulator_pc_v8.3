@@ -10,16 +10,13 @@ file(GLOB_RECURSE INCLUDES "lv_drivers/*.h" "lvgl/demos/*.h"  "lvgl/*.h"  "./*.h
 file(GLOB_RECURSE SOURCES  "lv_drivers/*.c" "lvgl/demos/*.c"  "lvgl/src/*.c" )
 
 file(GLOB_RECURSE UI_SOURCES
-    ${PROJECT_SOURCE_DIR}/APP/*.c
-    ${PROJECT_SOURCE_DIR}/APP/*.cpp
-    ${PROJECT_SOURCE_DIR}/img/*.c
+    ${CMAKE_CURRENT_LIST_DIR}/gui/ui/*.c
+    ${CMAKE_CURRENT_LIST_DIR}/gui/font/*.c
 )
 
 include_directories(
-    ${CMAKE_CURRENT_LIST_DIR}/APP
-    ${CMAKE_CURRENT_LIST_DIR}/APP/Pages
-    ${CMAKE_CURRENT_LIST_DIR}/APP/Utils
-    ${CMAKE_CURRENT_LIST_DIR}/img
+    ${CMAKE_CURRENT_LIST_DIR}/gui/ui
+    ${CMAKE_CURRENT_LIST_DIR}/gui/font
     )
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
