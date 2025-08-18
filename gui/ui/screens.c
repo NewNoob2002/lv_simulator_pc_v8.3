@@ -86,28 +86,31 @@ void create_screen_main()
 
           objects.page_main.status_bar_obj.label_position_t = label_position_t;
         }
+
+        {
+          lv_obj_t *icon_radio_status = lv_label_create(main_status_bar_obj);
+          lv_label_set_text(icon_radio_status, LV_SYMBOL_RADIO_TRANSMITTER);
+          lv_obj_set_style_text_font(icon_radio_status, &main_symbol,
+                                     0);
+          lv_obj_align(icon_radio_status, LV_ALIGN_TOP_LEFT, 167, 5);
+          lv_obj_set_style_text_color(
+              icon_radio_status, lv_palette_main(LV_PALETTE_LIGHT_BLUE), 0);
+
+          objects.page_main.status_bar_obj.icon_radio_status = icon_radio_status;
+        }
+
         {
           lv_obj_t *icon_sd = lv_label_create(main_status_bar_obj);
           lv_label_set_text(icon_sd, LV_SYMBOL_SD_CARD);
           lv_obj_set_style_text_font(icon_sd, &lv_font_montserrat_18, 0);
-          lv_obj_align(icon_sd, LV_ALIGN_TOP_LEFT, 175, 10);
-          lv_obj_set_style_text_color(
-              icon_sd, lv_palette_main(LV_PALETTE_LIGHT_BLUE), 0);
+          lv_obj_align(icon_sd, LV_ALIGN_TOP_LEFT, 205, 10);
+          lv_obj_set_style_text_color(icon_sd, lv_palette_main(LV_PALETTE_LIGHT_BLUE), 0);
 
-          objects.page_main.status_bar_obj.sd.icon_sd = icon_sd;
-
-          lv_obj_t *label_sd_t = lv_label_create(main_status_bar_obj);
-          lv_label_set_text(label_sd_t, "8G");
-          lv_obj_set_style_text_font(label_sd_t, &lv_font_montserrat_12, 0);
-          lv_obj_set_style_text_color(label_sd_t, lv_color_hex(0xffffff), 0);
-          lv_obj_align_to(label_sd_t, icon_sd, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
-
-          objects.page_main.status_bar_obj.sd.label_sd = label_sd_t;
+          objects.page_main.status_bar_obj.icon_sd = icon_sd;
         }
 
         {
-          lv_style_init(
-              &objects.page_main.status_bar_obj.battery.style_battery);
+          lv_style_init(&objects.page_main.status_bar_obj.battery.style_battery);
 
           lv_obj_t *img = lv_label_create(main_status_bar_obj);
           lv_label_set_recolor(img, true);
@@ -234,7 +237,7 @@ void create_screen_main()
                                    LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_label_set_text(obj, LV_SYMBOL_RADIO_RECEIVER);
             lv_obj_set_style_text_font(obj, &main_symbol, 0);
-						objects.page_main.status_bottom_obj.radio_workmode.icon_radio_workmode = obj;
+            objects.page_main.status_bottom_obj.radio_workmode.icon_radio_workmode = obj;
           }
         }
       }
@@ -242,17 +245,17 @@ void create_screen_main()
   }
 
   tick_screen_main();
-	Page_Main_Update();
+  Page_Main_Update();
 }
 
 void tick_screen_main()
 {
   lv_obj_clear_flag(objects.main, LV_OBJ_FLAG_HIDDEN);
-	if(GuiNeedUpdate)
-	{
-		GuiNeedUpdate = false;
-		Page_Main_Update();
-	}
+  if (GuiNeedUpdate)
+  {
+    GuiNeedUpdate = false;
+    Page_Main_Update();
+  }
 }
 
 void create_screen_radio_config()
@@ -291,18 +294,12 @@ void create_screen_radio_config()
     {
       // label_radioStatus
       lv_obj_t *label_radioStatus = lv_label_create(screen_radio_obj);
-      lv_label_set_text(label_radioStatus, LV_SYMBOL_INFORMATION);
-      lv_obj_set_style_text_font(label_radioStatus, &symbol_radio, 0);
-      lv_obj_set_style_text_color(label_radioStatus,
-                                  lv_palette_main(LV_PALETTE_GREEN), 0);
-      lv_obj_align(label_radioStatus, LV_ALIGN_TOP_MID, -55, 10);
+      lv_label_set_text(label_radioStatus, LV_SYMBOL_RADIO_RECEIVER);
+      lv_obj_set_style_text_font(label_radioStatus, &main_symbol, 0);
+      lv_obj_set_style_text_color(label_radioStatus, lv_palette_main(LV_PALETTE_GREEN), 0);
+      lv_obj_align(label_radioStatus, LV_ALIGN_TOP_RIGHT, -13, 5);
 
-      lv_obj_t *switch_radioStatus = lv_label_create(screen_radio_obj);
-      lv_obj_align(switch_radioStatus, LV_ALIGN_TOP_MID, 0, 10);
-      lv_label_set_text(switch_radioStatus, "Radio: ON");
-      lv_obj_set_style_text_font(switch_radioStatus, &lv_font_montserrat_16, 0);
-      lv_obj_set_style_text_color(switch_radioStatus,
-                                  lv_palette_main(LV_PALETTE_GREEN), 0);
+      objects.page_work.lable_radio_status = label_radioStatus;
     }
     {
       lv_obj_t *icon_radioconfig_t = lv_label_create(screen_radio_obj);
@@ -352,7 +349,7 @@ void create_screen_radio_config()
 
       lv_obj_t *dropdown_radioProtocol_t = lv_roller_create(screen_radio_obj);
       lv_roller_set_options(dropdown_radioProtocol_t,
-                              "TRIMTALK\nTRANSEOT\nSOUTH", LV_ROLLER_MODE_INFINITE);
+                            "TRIMTALK\nTRANSEOT\nSOUTH", LV_ROLLER_MODE_INFINITE);
       lv_roller_set_visible_row_count(dropdown_radioProtocol_t, 2);
       lv_obj_set_size(dropdown_radioProtocol_t, 125, 50);
       lv_obj_set_style_text_align(dropdown_radioProtocol_t, LV_TEXT_ALIGN_LEFT, 0);
@@ -391,7 +388,7 @@ void create_screen_radio_config()
       lv_obj_t *button_close_t = lv_btn_create(screen_radio_obj);
       lv_obj_set_size(button_close_t, 50, 30);
       lv_obj_align(button_close_t, LV_ALIGN_TOP_RIGHT, -5, 80);
-      lv_obj_add_event_cb(button_close_t, action_switch_to_main,
+      lv_obj_add_event_cb(button_close_t, action_radio_close,
                           LV_EVENT_PRESSED, (void *)0);
       {
         lv_obj_t *button_close_obj = button_close_t;
@@ -408,15 +405,20 @@ void create_screen_radio_config()
       }
       objects.page_work.Button_workmodeClose = button_close_t;
     }
-
   }
 
   tick_screen_radio_config();
+  Page_RadioConfig_Update();
 }
 
 void tick_screen_radio_config()
 {
   lv_obj_clear_flag(objects.radio_config, LV_OBJ_FLAG_HIDDEN);
+  if (GuiNeedUpdate)
+  {
+    GuiNeedUpdate = false;
+    Page_RadioConfig_Update();
+  }
 }
 
 void create_screen_work_config()
@@ -454,7 +456,7 @@ void create_screen_work_config()
 
       // Static status label
       lv_obj_t *button_static = lv_btn_create(parent_obj);
-//      lv_obj_set_style_bg_color(button_static, lv_color_hex(0x000000), 0);
+      //      lv_obj_set_style_bg_color(button_static, lv_color_hex(0x000000), 0);
       lv_obj_align(button_static, LV_ALIGN_TOP_LEFT, 95, 10);
       lv_obj_add_event_cb(button_static, action_switch_to_static_settings, LV_EVENT_PRESSED, (void *)0);
 
@@ -472,12 +474,12 @@ void create_screen_work_config()
       lv_obj_align(icon_4g, LV_ALIGN_LEFT_MID, 68, 15);
 
       lv_obj_t *button_4g = lv_btn_create(parent_obj);
-//      lv_obj_set_style_bg_color(button_4g, lv_color_hex(0x000000), 0);
+      //      lv_obj_set_style_bg_color(button_4g, lv_color_hex(0x000000), 0);
       lv_obj_align(button_4g, LV_ALIGN_LEFT_MID, 95, 15);
       lv_obj_add_event_cb(button_4g, action_switch_to_network_settings, LV_EVENT_PRESSED, (void *)0);
 
       lv_obj_t *label_4g = lv_label_create(button_4g);
-      lv_label_set_text(label_4g, "4G  Network");
+      lv_label_set_text(label_4g, "Auto Start");
       lv_obj_set_style_text_font(label_4g, &lv_font_montserrat_16, 0);
       lv_obj_set_style_text_color(label_4g, lv_color_hex(0xffffff), 0);
       lv_obj_center(label_4g);
@@ -493,7 +495,7 @@ void create_screen_work_config()
 
       // Firmware version label
       lv_obj_t *label_firmware = lv_label_create(firmware_container);
-      lv_label_set_text(label_firmware, "Firmware: v1.0.0");
+      lv_label_set_text_fmt(label_firmware, "Firmware: V%s", "1.0.0");
       lv_obj_set_style_text_font(label_firmware, &lv_font_montserrat_12, 0);
       lv_obj_set_style_text_color(label_firmware, lv_palette_main(LV_PALETTE_GREY), 0);
       lv_obj_align(label_firmware, LV_ALIGN_LEFT_MID, 10, 0);
@@ -504,7 +506,6 @@ void create_screen_work_config()
       lv_obj_set_style_text_font(label_compile_time, &lv_font_montserrat_12, 0);
       lv_obj_set_style_text_color(label_compile_time, lv_palette_main(LV_PALETTE_GREY), 0);
       lv_obj_align(label_compile_time, LV_ALIGN_RIGHT_MID, -10, 0);
-			
     }
   }
 
@@ -522,7 +523,7 @@ void create_screen_static_settings()
   objects.static_settings = screen_static_settings;
   lv_obj_set_pos(screen_static_settings, 0, 0);
   lv_obj_set_size(screen_static_settings, 294, 126);
-	
+
   {
     lv_obj_t *parent_obj = screen_static_settings;
     {
@@ -546,37 +547,65 @@ void create_screen_static_settings()
       lv_label_set_text(icon_static, LV_SYMBOL_STATIC);
       lv_obj_set_style_text_font(icon_static, &main_symbol2, 0);
       lv_obj_set_style_text_color(icon_static, lv_palette_main(LV_PALETTE_BLUE), 0);
-      lv_obj_align(icon_static, LV_ALIGN_TOP_LEFT, 10, 55);
+      lv_obj_align(icon_static, LV_ALIGN_TOP_LEFT, 70, 15);
 
       lv_obj_t *label_static = lv_label_create(parent_obj);
-      lv_label_set_text(label_static, "Static Record : OFF");
+      lv_label_set_text_fmt(label_static, "Status: %s", systemInfo.record_status ? "ON" : "OFF");
       lv_obj_set_style_text_font(label_static, &lv_font_montserrat_16, 0);
       lv_obj_set_style_text_color(label_static, lv_color_hex(0xffffff), 0);
-      lv_obj_align(label_static, LV_ALIGN_TOP_LEFT, 30, 55);
+      lv_obj_align_to(label_static, icon_static, LV_ALIGN_LEFT_MID, 25, 0);
 
       lv_obj_t *switch_static = lv_switch_create(parent_obj);
-      lv_obj_align_to(switch_static, label_static, LV_ALIGN_RIGHT_MID, 80, 0);
+      lv_obj_align_to(switch_static, label_static, LV_ALIGN_RIGHT_MID, 70, 0);
       lv_obj_add_event_cb(switch_static, action_turn_onoff_static, LV_EVENT_VALUE_CHANGED, (void *)0);
+      
+
+      lv_obj_t *icon_static_name = lv_label_create(parent_obj);
+      lv_label_set_text(icon_static_name, LV_SYMBOL_FILE);
+      lv_obj_set_style_text_font(icon_static_name, &lv_font_montserrat_18, 0);
+      lv_obj_set_style_text_color(icon_static_name, lv_palette_main(LV_PALETTE_GREY), 0);
+      lv_obj_align(icon_static_name, LV_ALIGN_TOP_LEFT, 10, 45);
+
+      lv_obj_t *lable_static_name = lv_label_create(parent_obj);
+      lv_label_set_text(lable_static_name, "REC: -");
+      lv_obj_set_style_text_font(lable_static_name, &lv_font_montserrat_16, 0);
+      lv_obj_set_style_text_color(lable_static_name, lv_color_hex(0xffffff), 0);
+      lv_obj_align_to(lable_static_name, icon_static_name, LV_ALIGN_LEFT_MID, 20, 0);
+
+
+      lv_obj_t *lable_static_type = lv_label_create(parent_obj);
+      lv_label_set_text(lable_static_type, "Type: -");
+      lv_obj_set_style_text_font(lable_static_type, &lv_font_montserrat_16, 0);
+      lv_obj_set_style_text_color(lable_static_type, lv_color_hex(0xffffff), 0);
+      lv_obj_align(lable_static_type, LV_ALIGN_TOP_LEFT, 10, 70);
+
+      lv_obj_t *lable_static_time = lv_label_create(parent_obj);
+      lv_label_set_text(lable_static_time, "Time: -");
+      lv_obj_set_style_text_font(lable_static_time, &lv_font_montserrat_16, 0);
+      lv_obj_set_style_text_color(lable_static_time, lv_color_hex(0xffffff), 0);
+      lv_obj_align(lable_static_time, LV_ALIGN_TOP_LEFT, 150, 70);
+
 
       lv_obj_t *icon_sd = lv_label_create(parent_obj);
       lv_label_set_text(icon_sd, LV_SYMBOL_SD_CARD);
       lv_obj_set_style_text_font(icon_sd, &lv_font_montserrat_18, 0);
       lv_obj_set_style_text_color(icon_sd, lv_palette_main(LV_PALETTE_GREY), 0);
-      lv_obj_align(icon_sd, LV_ALIGN_TOP_LEFT, 12, 90);
+      lv_obj_align(icon_sd, LV_ALIGN_TOP_LEFT, 10, 95);
 
       lv_obj_t *label_sd = lv_label_create(parent_obj);
-      lv_label_set_text(label_sd, "xx MB/xx MB");
+      lv_label_set_text_fmt(label_sd, "RSC: -MB");
       lv_obj_set_style_text_font(label_sd, &lv_font_montserrat_16, 0);
       lv_obj_set_style_text_color(label_sd, lv_color_hex(0xffffff), 0);
       lv_obj_align_to(label_sd, icon_sd, LV_ALIGN_LEFT_MID, 20, 0);
 
-
       objects.page_static.label_static = label_static;
-      objects.page_static.icon_static = icon_static;
       objects.page_static.switch_static_onoff = switch_static;
+      objects.page_static.icon_static_name = icon_static_name;
+      objects.page_static.label_static_name = lable_static_name;
+      objects.page_static.label_static_type = lable_static_type;
+      objects.page_static.label_static_time = lable_static_time;
       objects.page_static.icon_sd = icon_sd;
       objects.page_static.label_sd = label_sd;
-
     }
   }
 }
@@ -592,14 +621,14 @@ void create_screen_network_settings()
   objects.network_settings = screen_network_settings;
   lv_obj_set_pos(screen_network_settings, 0, 0);
   lv_obj_set_size(screen_network_settings, 294, 126);
- {
+  {
     lv_obj_t *parent_obj = screen_network_settings;
     {
       /*back button*/
       lv_obj_t *button_network_back = lv_btn_create(parent_obj);
       lv_obj_set_size(button_network_back, 50, 30);
       lv_obj_align(button_network_back, LV_ALIGN_TOP_LEFT, 10, 10);
-      lv_obj_add_event_cb(button_network_back, action_switch_to_radio_config, LV_EVENT_PRESSED, (void *)0);
+      lv_obj_add_event_cb(button_network_back, action_switch_to_work_config, LV_EVENT_PRESSED, (void *)0);
 
       lv_obj_t *label_network_back = lv_label_create(button_network_back);
       lv_label_set_text(label_network_back, LV_SYMBOL_LEFT);
@@ -608,7 +637,6 @@ void create_screen_network_settings()
       lv_obj_center(label_network_back);
 
       objects.page_network.button_network_back = button_network_back;
-      
     }
 
     {
@@ -616,13 +644,13 @@ void create_screen_network_settings()
       lv_label_set_text(icon_4g, LV_SYMBOL_4G);
       lv_obj_set_style_text_font(icon_4g, &main_symbol2, 0);
       lv_obj_set_style_text_color(icon_4g, lv_palette_main(LV_PALETTE_GREY), 0);
-      lv_obj_align(icon_4g, LV_ALIGN_TOP_LEFT, 10, 50);
+      lv_obj_align(icon_4g, LV_ALIGN_TOP_LEFT, 70, 15);
 
       lv_obj_t *label_4g_status = lv_label_create(parent_obj);
       lv_label_set_text(label_4g_status, "CSQ: 0");
       lv_obj_set_style_text_font(label_4g_status, &lv_font_montserrat_16, 0);
       lv_obj_set_style_text_color(label_4g_status, lv_color_hex(0xffffff), 0);
-      lv_obj_align(label_4g_status, LV_ALIGN_TOP_LEFT, 35, 50);
+      lv_obj_align_to(label_4g_status, icon_4g, LV_ALIGN_TOP_LEFT, 25, 0);
 
       lv_obj_t *label_4g = lv_label_create(parent_obj);
       lv_label_set_text(label_4g, "Network : OFF");
@@ -638,13 +666,34 @@ void create_screen_network_settings()
       objects.page_network.label_4g = label_4g;
       objects.page_network.switch_4g_onoff = switch_4g;
     }
-
   }
 }
 
 void tick_screen_network_settings()
 {
   lv_obj_clear_flag(objects.network_settings, LV_OBJ_FLAG_HIDDEN);
+}
+
+void create_screen_poweroff()
+{
+  lv_obj_t *screen_poweroff = lv_obj_create(0);
+  objects.power_off = screen_poweroff;
+  lv_obj_set_pos(screen_poweroff, 0, 0);
+  lv_obj_set_size(screen_poweroff, 294, 126);
+  {
+    lv_obj_t *parent_obj = screen_poweroff;
+
+    // Power off label
+    lv_obj_t *label_poweroff = lv_label_create(parent_obj);
+    lv_label_set_text(label_poweroff, "Power Off");
+    lv_obj_set_style_text_font(label_poweroff, &lv_font_montserrat_48, 0);
+    lv_obj_set_style_text_color(label_poweroff, lv_color_hex(0xffffff), 0);
+    lv_obj_align(label_poweroff, LV_ALIGN_CENTER, 0, 0);
+  }
+}
+
+void tick_screen_poweroff()
+{
 }
 
 typedef void (*tick_screen_func_t)();
@@ -654,9 +703,11 @@ tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_radio_config,
     tick_screen_static_settings,
     tick_screen_network_settings,
+    tick_screen_poweroff,
 };
-void tick_screen(int screen_index) { 
-	tick_screen_funcs[screen_index]();
+void tick_screen(int screen_index)
+{
+  tick_screen_funcs[screen_index]();
 }
 void tick_screen_by_id(enum ScreensEnum screenId)
 {
@@ -670,10 +721,11 @@ void create_screens()
       dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
       true, LV_FONT_DEFAULT);
   lv_disp_set_theme(dispp, theme);
-	
+
   create_screen_main();
   create_screen_work_config();
   create_screen_radio_config();
   create_screen_static_settings();
   create_screen_network_settings();
+  create_screen_poweroff();
 }

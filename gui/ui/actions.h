@@ -21,9 +21,13 @@ extern void action_switch_to_main(lv_event_t * e);
 	
 extern void action_radio_roller(lv_event_t *e) ;
 extern void action_radio_protocol_roller(lv_event_t *e);
+extern void action_radio_close(lv_event_t *e);
 
 extern void lv_update_battery(pBatteryState p_batteryState, status_bar *bar);
 extern void Page_Main_Update();
+
+
+extern void Page_RadioConfig_Update();
 
 extern void lv_focus_init(lv_obj_t *screen);
 #ifdef __cplusplus

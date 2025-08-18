@@ -30,11 +30,13 @@ void action_turn_onoff_static(lv_event_t *e)
 		{
 			systemInfo.record_status = 1;
 			systemInfo.record_op = 1;
+			lv_label_set_text_fmt(objects.page_static.label_static, "Status: ON");
 		}
 		else
 		{
 			systemInfo.record_status = 0;
 			systemInfo.record_op = 1;
+			lv_label_set_text_fmt(objects.page_static.label_static, "Status: OFF");
 		}
 	}
 }
@@ -82,6 +84,11 @@ void action_radio_protocol_roller(lv_event_t *e)
 		lv_roller_get_selected_str(obj, buf, sizeof(buf));
 		printf("Selected value: %s\n", buf);
 	}
+}
+
+void action_radio_close(lv_event_t *e)
+{
+	loadScreen(SCREEN_ID_POWER_OFF);
 }
 
 void lv_update_battery(pBatteryState p_batteryState, status_bar *bar)
@@ -179,13 +186,12 @@ static void page_mainTopUpdate(status_bar *bar)
 	// SD
 	if (systemInfo.record_status)
 	{
-		lv_obj_set_style_text_color(bar->sd.icon_sd, lv_palette_main(LV_PALETTE_LIGHT_BLUE), 0);
+		lv_obj_set_style_text_color(bar->icon_sd, lv_palette_main(LV_PALETTE_LIGHT_BLUE), 0);
 	}
 	else
 	{
-		lv_obj_set_style_text_color(bar->sd.icon_sd, lv_palette_main(LV_PALETTE_GREY), 0);
+		lv_obj_set_style_text_color(bar->icon_sd, lv_palette_main(LV_PALETTE_GREY), 0);
 	}
-	lv_label_set_text_fmt(bar->sd.label_sd, "%dGB", (int)systemInfo.record_leftspace / 1000);
 	/*Battery*/
 	lv_update_battery(&batteryState, bar);
 }
@@ -193,9 +199,9 @@ void Page_Main_Update()
 {
 	// TOP Update
 	page_mainTopUpdate(&objects.page_main.status_bar_obj);
-	//	//Button Update
-	// lv_label_set_text_fmt(objects.page_main.status_bottom_obj.satellite.label_sat_num, "%d", systemInfo.satellite_number_used);
-	// lv_label_set_text_fmt(objects.page_main.status_bottom_obj.satellite.label_sat_num_real, "/%d", systemInfo.satellite_number_track);
+	//satallite update
+	lv_label_set_text_fmt(objects.page_main.status_bottom_obj.satellite.label_sat_num, "%d", systemInfo.satellite_number_used);
+	lv_label_set_text_fmt(objects.page_main.status_bottom_obj.satellite.label_sat_num_real, "/%d", systemInfo.satellite_number_track);
 
 	switch (systemInfo.work_mode)
 	{
@@ -212,6 +218,26 @@ void Page_Main_Update()
 		lv_label_set_text(objects.page_main.status_bottom_obj.workmode.icon_settings, LV_SYMBOL_BASE);
 		break;
 	}
+}
+
+
+void Page_RadioConfig_Update()
+{
+	// Update radio status
+	if (systemInfo.radio_status)
+	{
+		lv_obj_set_style_text_color(objects.page_work.lable_radio_status, lv_palette_main(LV_PALETTE_GREEN), 0);
+	}
+	else
+	{
+		lv_obj_set_style_text_color(objects.page_work.lable_radio_status, lv_palette_main(LV_PALETTE_RED), 0);
+	}
+
+	// // Update radio frequency
+	// lv_label_set_text_fmt(objects.page_work.roller_radioFreq, "%dMHz", systemInfo.radio_freq);
+
+	// // Update radio protocol
+	// lv_roller_set_selected(objects.page_work.dropdown_radioProtocol, systemInfo.radio_protocol, LV_ANIM_ON);
 }
 
 void add_objs_to_group(lv_obj_t *parent, lv_group_t *group)

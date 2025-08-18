@@ -2,11 +2,12 @@
 #define EEZ_LVGL_UI_SCREENS_H
 
 #include <lvgl/lvgl.h>
-//#include "lv_obj_ext_func.h"
-//#include "lv_anim_timeline_wrapper.h"
+// #include "lv_obj_ext_func.h"
+// #include "lv_anim_timeline_wrapper.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 	/*Main Page*/
@@ -18,12 +19,8 @@ extern "C" {
 		lv_obj_t *icon_wifi;
 		lv_obj_t *icon_position;
 		lv_obj_t *label_position_t;
-
-		struct sd_status
-		{
-			lv_obj_t *icon_sd;
-			lv_obj_t *label_sd;
-		} sd;
+		lv_obj_t *icon_radio_status;
+		lv_obj_t *icon_sd;
 
 		struct
 		{
@@ -56,7 +53,7 @@ extern "C" {
 			lv_obj_t *button_radio_workmode;
 			lv_obj_t *icon_radio_workmode;
 		} radio_workmode;
-		
+
 	} status_bottom;
 
 	typedef struct page_main
@@ -76,12 +73,13 @@ extern "C" {
 		lv_obj_t *Button_workmodeClose;
 		lv_obj_t *button_return;
 
+		lv_obj_t *lable_radio_status;
+
 		lv_obj_t *roller_radioFreq;
 		lv_obj_t *dropdown_radioProtocol;
 
 		lv_obj_t *button_cofirm;
 		lv_obj_t *button_close;
-
 
 	} page_workconfig_t;
 
@@ -89,15 +87,16 @@ extern "C" {
 	{
 		lv_obj_t *button_static_back;
 
-		lv_obj_t *icon_static;
 		lv_obj_t *label_static;
 		lv_obj_t *switch_static_onoff;
-
+		lv_obj_t *icon_static_name;
+		lv_obj_t *label_static_name;
+		lv_obj_t *label_static_type;
+		lv_obj_t *label_static_time;
 		lv_obj_t *icon_sd;
 		lv_obj_t *label_sd;
 
 	} page_static_settings_t;
-
 
 	typedef struct page_network_settings
 	{
@@ -106,7 +105,7 @@ extern "C" {
 		lv_obj_t *icon_4g;
 		lv_obj_t *label_4g;
 		lv_obj_t *switch_4g_onoff;
-		
+
 	} page_network_settings_t;
 
 	typedef struct _objects_t
@@ -129,17 +128,17 @@ extern "C" {
 	} objects_t;
 
 	extern objects_t objects;
-	
+
 	enum ScreensEnum
 	{
 		SCREEN_ID_MAIN = 1,
-		SCREEN_ID_WORK_CONFIG,
-		SCREEN_ID_RADIO_CONFIG,
-		SCREEN_ID_STATIC_SETTINGS,
-		SCREEN_ID_NETWORK_SETTINGS,
-		SCREEN_ID_POWEROFF,
+		SCREEN_ID_WORK_CONFIG = 2,
+		SCREEN_ID_RADIO_CONFIG = 3,
+		SCREEN_ID_STATIC_SETTINGS = 4,
+		SCREEN_ID_NETWORK_SETTINGS = 5,
+		SCREEN_ID_POWER_OFF = 6,
 	};
-	
+
 	void create_screen_main();
 	void tick_screen_main();
 
@@ -155,11 +154,13 @@ extern "C" {
 	void create_screen_network_settings();
 	void tick_screen_network_settings();
 
+	void create_screen_poweroff();
+	void tick_screen_poweroff();
+
 	void tick_screen_by_id(enum ScreensEnum screenId);
 	void tick_screen(int screen_index);
 
 	void create_screens();
-
 
 #ifdef __cplusplus
 }

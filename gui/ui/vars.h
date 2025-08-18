@@ -2,6 +2,7 @@
 #define EEZ_LVGL_UI_VARS_H
 
 #include <stdint.h>
+#include <stdio.h>
 #include <stdbool.h>
 
 #define BATT_USAGE_HEIGHT (8)
