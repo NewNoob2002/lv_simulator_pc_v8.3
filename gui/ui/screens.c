@@ -653,14 +653,43 @@ void create_screen_network_settings()
       lv_obj_align_to(label_4g_status, icon_4g, LV_ALIGN_TOP_LEFT, 25, 0);
 
       lv_obj_t *label_4g = lv_label_create(parent_obj);
-      lv_label_set_text(label_4g, "Network : OFF");
+      lv_label_set_text(label_4g, "-OFF");
       lv_obj_set_style_text_font(label_4g, &lv_font_montserrat_16, 0);
       lv_obj_set_style_text_color(label_4g, lv_color_hex(0xffffff), 0);
-      lv_obj_align(label_4g, LV_ALIGN_TOP_LEFT, 10, 80);
+      lv_obj_align_to(label_4g, label_4g_status, LV_ALIGN_TOP_LEFT, 75, 0);
 
       lv_obj_t *switch_4g = lv_switch_create(parent_obj);
-      lv_obj_align_to(switch_4g, label_4g, LV_ALIGN_RIGHT_MID, 80, 0);
+      lv_obj_align_to(switch_4g, label_4g, LV_ALIGN_OUT_RIGHT_MID, 10, 0);
       lv_obj_add_event_cb(switch_4g, action_turn_onoff_4g, LV_EVENT_VALUE_CHANGED, (void *)0);
+
+      lv_obj_t *lable_ntrip_server = lv_label_create(parent_obj);
+      lv_label_set_text(lable_ntrip_server, "NTRIP Server:");
+      lv_obj_set_style_text_font(lable_ntrip_server, &lv_font_montserrat_16, 0);
+      lv_obj_set_style_text_color(lable_ntrip_server, lv_color_hex(0xffffff), 0);
+      lv_obj_align(lable_ntrip_server, LV_ALIGN_LEFT_MID, 5, 0);
+
+      lv_obj_t *ip_ntrip_server = lv_label_create(parent_obj);
+      lv_label_set_text(ip_ntrip_server, "-");
+      lv_obj_set_style_text_font(ip_ntrip_server, &lv_font_montserrat_16, 0);
+      lv_obj_set_style_text_color(ip_ntrip_server, lv_color_hex(0xffffff), 0);
+      lv_obj_align_to(ip_ntrip_server, lable_ntrip_server, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
+
+      lv_obj_t *mount_nrtip_server = lv_label_create(parent_obj);
+      lv_label_set_text(mount_nrtip_server, "MountPoint: -");
+      lv_obj_set_style_text_font(mount_nrtip_server, &lv_font_montserrat_16, 0);
+      lv_obj_set_style_text_color(mount_nrtip_server, lv_color_hex(0xffffff), 0);
+      lv_obj_align_to(mount_nrtip_server, lable_ntrip_server, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 0);
+
+      lv_obj_t *buttom_onestep_start = lv_btn_create(parent_obj);
+      lv_obj_set_size(buttom_onestep_start, 130, 25);
+      lv_obj_align(buttom_onestep_start, LV_ALIGN_BOTTOM_LEFT, 10, -5);
+      lv_obj_add_event_cb(buttom_onestep_start, action_switch_to_work_config, LV_EVENT_PRESSED, (void *)0);
+
+      lv_obj_t *label_onestep_start = lv_label_create(buttom_onestep_start);
+      lv_label_set_text(label_onestep_start, "OneStep-Start");
+      lv_obj_set_style_text_font(label_onestep_start, &lv_font_montserrat_16, 0);
+      lv_obj_set_style_text_color(label_onestep_start, lv_color_hex(0xffffff), 0);
+      lv_obj_center(label_onestep_start);
 
       objects.page_network.icon_4g = icon_4g;
       objects.page_network.label_4g = label_4g;
@@ -685,8 +714,8 @@ void create_screen_poweroff()
 
     // Power off label
     lv_obj_t *label_poweroff = lv_label_create(parent_obj);
-    lv_label_set_text(label_poweroff, "Power Off");
-    lv_obj_set_style_text_font(label_poweroff, &lv_font_montserrat_48, 0);
+    lv_label_set_text(label_poweroff, "Power Off......\nWait Board Sync");
+    lv_obj_set_style_text_font(label_poweroff, &lv_font_montserrat_24, 0);
     lv_obj_set_style_text_color(label_poweroff, lv_color_hex(0xffffff), 0);
     lv_obj_align(label_poweroff, LV_ALIGN_CENTER, 0, 0);
   }
