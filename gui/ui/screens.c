@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "screens.h"
+#include "anim.h"
 #include "images.h"
 #include "fonts.h"
 #include "actions.h"
@@ -461,8 +462,8 @@ void create_screen_work_config()
       lv_obj_add_event_cb(button_static, action_switch_to_static_settings, LV_EVENT_PRESSED, (void *)0);
 
       lv_obj_t *label_static = lv_label_create(button_static);
-      lv_label_set_text(label_static, "Static Record");
-      lv_obj_set_style_text_font(label_static, &lv_font_montserrat_16, 0);
+      lv_label_set_text(label_static, "€ÀàÂâÆæ");
+      lv_obj_set_style_text_font(label_static, &French_font, 0);
       lv_obj_set_style_text_color(label_static, lv_color_hex(0xffffff), 0);
       lv_obj_center(label_static);
 
@@ -558,7 +559,6 @@ void create_screen_static_settings()
       lv_obj_t *switch_static = lv_switch_create(parent_obj);
       lv_obj_align_to(switch_static, label_static, LV_ALIGN_RIGHT_MID, 70, 0);
       lv_obj_add_event_cb(switch_static, action_turn_onoff_static, LV_EVENT_VALUE_CHANGED, (void *)0);
-      
 
       lv_obj_t *icon_static_name = lv_label_create(parent_obj);
       lv_label_set_text(icon_static_name, LV_SYMBOL_FILE);
@@ -572,7 +572,6 @@ void create_screen_static_settings()
       lv_obj_set_style_text_color(lable_static_name, lv_color_hex(0xffffff), 0);
       lv_obj_align_to(lable_static_name, icon_static_name, LV_ALIGN_LEFT_MID, 20, 0);
 
-
       lv_obj_t *lable_static_type = lv_label_create(parent_obj);
       lv_label_set_text(lable_static_type, "Type: -");
       lv_obj_set_style_text_font(lable_static_type, &lv_font_montserrat_16, 0);
@@ -584,7 +583,6 @@ void create_screen_static_settings()
       lv_obj_set_style_text_font(lable_static_time, &lv_font_montserrat_16, 0);
       lv_obj_set_style_text_color(lable_static_time, lv_color_hex(0xffffff), 0);
       lv_obj_align(lable_static_time, LV_ALIGN_TOP_LEFT, 150, 70);
-
 
       lv_obj_t *icon_sd = lv_label_create(parent_obj);
       lv_label_set_text(icon_sd, LV_SYMBOL_SD_CARD);
@@ -703,6 +701,14 @@ void tick_screen_network_settings()
   lv_obj_clear_flag(objects.network_settings, LV_OBJ_FLAG_HIDDEN);
 }
 
+struct
+{
+  lv_obj_t *icon_battery;
+  lv_obj_t *label_useage;
+  lv_style_t style_battery;
+  lv_obj_t *label_text;
+} battery;
+
 void create_screen_poweroff()
 {
   lv_obj_t *screen_poweroff = lv_obj_create(0);
@@ -710,19 +716,101 @@ void create_screen_poweroff()
   lv_obj_set_pos(screen_poweroff, 0, 0);
   lv_obj_set_size(screen_poweroff, 294, 126);
   {
-    lv_obj_t *parent_obj = screen_poweroff;
+    lv_obj_t *scr7 = screen_poweroff;
+    {
+      lv_style_init(&battery.style_battery);
 
+      
+      lv_obj_t *img = lv_label_create(scr7);
+      lv_label_set_recolor(img, true);
+      lv_obj_center(img);
+      lv_label_set_text(img, LV_SYMBOL_BATTERY_EMPTY);
+      lv_obj_set_style_text_font(img, &lv_font_montserrat_48, 0);
+      lv_obj_add_style(img, &battery.style_battery, 0);
+
+      lv_obj_t *useage = lv_obj_create(img);
+      lv_obj_remove_style_all(useage);
+      lv_obj_set_style_bg_opa(useage, LV_OPA_COVER, 0);
+      lv_obj_set_style_opa(useage, LV_OPA_COVER, 0);
+      lv_obj_set_size(useage, 46, 18);
+      lv_obj_align_to(useage, img, LV_ALIGN_LEFT_MID, 5, -1);
+      lv_obj_add_style(useage, &battery.style_battery, 0);
+
+      lv_style_set_text_color(&battery.style_battery, lv_color_hex(0xF44336));
+
+      lv_obj_t *label = lv_label_create(scr7);
+      lv_label_set_text(label, "\n50%");
+      lv_obj_set_style_text_font(label, &lv_font_montserrat_18, 0);
+      lv_obj_set_style_text_color(label, lv_color_hex(0xffffff), 0);
+      lv_obj_align_to(label, img, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
+
+      lv_obj_t *charge_label = lv_label_create(scr7);
+      lv_label_set_text(charge_label, "Charging...");
+      lv_obj_set_style_text_font(charge_label, &lv_font_montserrat_18, 0);
+      lv_obj_set_style_text_color(charge_label, lv_color_hex(0x4CAF50), 0);
+      lv_obj_align_to(charge_label, img, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
+
+      battery.icon_battery = img;
+      battery.label_useage = useage;
+      battery.label_text = label;
+    }
     // Power off label
-    lv_obj_t *label_poweroff = lv_label_create(parent_obj);
-    lv_label_set_text(label_poweroff, "Power Off......\nWait Board Sync");
-    lv_obj_set_style_text_font(label_poweroff, &lv_font_montserrat_24, 0);
-    lv_obj_set_style_text_color(label_poweroff, lv_color_hex(0xffffff), 0);
-    lv_obj_align(label_poweroff, LV_ALIGN_CENTER, 0, 0);
+    // lv_obj_t *label_poweroff = lv_label_create(parent_obj);
+    // lv_label_set_text(label_poweroff, "Power Off......\nWait Board Sync");
+    // lv_obj_set_style_text_font(label_poweroff, &lv_font_montserrat_24, 0);
+    // lv_obj_set_style_text_color(label_poweroff, lv_color_hex(0xffffff), 0);
+    // lv_obj_align(label_poweroff, LV_ALIGN_CENTER, 0, 0);
   }
 }
 
 void tick_screen_poweroff()
 {
+  	/*battery*/
+  uint8_t battery_percentage = lv_rand(0, 100); // 假设电池百分比为随机值
+	lv_label_set_text_fmt(battery.label_text, "%d%%", 90);
+
+	// bool Is_BattCharging = p_batteryState->chargeStatus == 1 || p_batteryState->chargeStatus == 2; // 数据接口
+	bool is_FullCharge = (battery_percentage >= 100);
+	lv_obj_t *battery_useage = battery.label_useage;
+	lv_obj_t *battery_img = battery.icon_battery;
+	static bool Is_BattChargingAnimActive = false;
+	if (1)
+	{
+		if (!Is_BattChargingAnimActive && !is_FullCharge)
+		{
+			lv_style_set_bg_color(&battery.style_battery, lv_color_hex(0x4CAF50));
+			lv_style_set_text_color(&battery.style_battery, lv_color_hex(0x4CAF50));
+			StatusBar_AnimCreate(battery_useage);
+			Is_BattChargingAnimActive = true;
+		}
+	}
+	else
+	{
+		if (Is_BattChargingAnimActive)
+		{
+			lv_anim_del(battery_useage, NULL);
+			StatusBar_ConBattSetOpa(battery_useage, LV_OPA_COVER);
+			Is_BattChargingAnimActive = false;
+		}
+		lv_coord_t width = lv_map(battery_percentage, 0, 100, 0, 48);
+
+		lv_color_t battery_color;
+		if (battery_percentage > 50)
+		{
+			battery_color = lv_color_hex(0x4CAF50); // 绿色
+		}
+		else if (battery_percentage > 20)
+		{
+			battery_color = lv_color_hex(0xFF9800); // 橙色
+		}
+		else
+		{
+			battery_color = lv_color_hex(0xF44336); // 红色
+		}
+		lv_style_set_bg_color(&battery.style_battery, battery_color);
+		lv_style_set_text_color(&battery.style_battery, battery_color);
+		lv_obj_set_width(battery_useage, width);
+	}
 }
 
 typedef void (*tick_screen_func_t)();

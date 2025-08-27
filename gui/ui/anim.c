@@ -38,7 +38,7 @@ void StatusBar_AnimCreate(lv_obj_t *contBatt)
 	lv_anim_init(&a);
 	lv_anim_set_var(&a, contBatt);
 	lv_anim_set_exec_cb(&a, StatusBar_AnimSetWidth);
-	lv_anim_set_values(&a, 0, BATT_USAGE_WIDTH);
+	lv_anim_set_values(&a, 0, 46);
 	lv_anim_set_time(&a, 1000);
 	lv_anim_set_ready_cb(&a, StatusBar_onAnimWidthFinish);
 	lv_anim_start(&a);

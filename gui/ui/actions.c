@@ -70,7 +70,8 @@ void action_radio_roller(lv_event_t *e)
 	{
 		char buf[32];
 		lv_roller_get_selected_str(obj, buf, sizeof(buf));
-		printf("Selected value: %s\n", buf);
+		uint16_t index =lv_roller_get_selected(obj);
+		printf("Selected value: %s, index:%d\n", buf, index);
 	}
 }
 
@@ -82,7 +83,8 @@ void action_radio_protocol_roller(lv_event_t *e)
 	{
 		char buf[32];
 		lv_roller_get_selected_str(obj, buf, sizeof(buf));
-		printf("Selected value: %s\n", buf);
+		uint16_t index =lv_roller_get_selected(obj);
+		printf("Selected value: %s, index:%d\n", buf, index);
 	}
 }
 

@@ -4,7 +4,8 @@
         "ui.h": "c",
         "mcu_define.h": "c",
         "lvgl.h": "c",
-        "vars.h": "c"
+        "vars.h": "c",
+        "anim.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
