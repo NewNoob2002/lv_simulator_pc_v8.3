@@ -18,7 +18,7 @@
 #include "lvgl/examples/lv_examples.h"
 #include "lvgl/demos/lv_demos.h"
 #include "lv_drivers/sdl/sdl.h"
-
+#include "App.h"
 // #include "ui.h"
 // #include "mcu_define.h"
 /*********************
@@ -113,7 +113,7 @@ int main(int argc, char **argv)
     printf("Failed to create mutex\n");
     return -1;
   }
-
+  App_Init();
   SDL_Thread *lvgl_thread = SDL_CreateThread(my_lvgl_thread, "lvgl_thread", NULL);
   if (lvgl_thread == NULL)
   {

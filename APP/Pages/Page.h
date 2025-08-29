@@ -22,7 +22,7 @@
  */
 #ifndef __PAGE_H
 #define __PAGE_H
-
+#include <stdio.h>
 #include "lvgl/lvgl.h"
 #include "Utils/PageManager/PageManager.h"
 #include "Utils/lv_ext/lv_obj_ext_func.h"

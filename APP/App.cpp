@@ -21,7 +21,7 @@
 * SOFTWARE.
 */
 // #include "Config/Config.h"
-// #include "Common/DataProc/DataProc.h"
+#include "Common/DataProc/DataProc.h"
 // #include "Resource/ResourcePool.h"
 #include "Pages/AppFactory.h"
 // #include "Pages/StatusBar/StatusBar.h"
@@ -66,9 +66,9 @@ void App_Init()
     }
 
     /* Initialize the data processing node */
-    // DataProc_Init();
-    // ACCOUNT_SEND_CMD(Storage, STORAGE_CMD_LOAD);
-    // ACCOUNT_SEND_CMD(SysConfig, SYSCONFIG_CMD_LOAD);
+    DataProc_Init();
+    ACCOUNT_SEND_CMD(Storage, STORAGE_CMD_LOAD);
+    ACCOUNT_SEND_CMD(SysConfig, SYSCONFIG_CMD_LOAD);
 
     /* Set screen style */
     lv_obj_t* scr = lv_scr_act();

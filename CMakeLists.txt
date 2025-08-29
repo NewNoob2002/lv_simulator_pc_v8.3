@@ -20,6 +20,7 @@ include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/APP
     ${CMAKE_CURRENT_LIST_DIR}/APP/Pages
     ${CMAKE_CURRENT_LIST_DIR}/APP/Utils
+    ${CMAKE_CURRENT_LIST_DIR}/APP/Common
     # ${CMAKE_CURRENT_LIST_DIR}/gui/ui
     # ${CMAKE_CURRENT_LIST_DIR}/gui/font
     )
