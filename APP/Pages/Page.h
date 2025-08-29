@@ -22,6 +22,10 @@
  */
 #ifndef __PAGE_H
 #define __PAGE_H
+
+#define DEBUG 1
+
+
 #include <stdio.h>
 #include "lvgl/lvgl.h"
 #include "Utils/PageManager/PageManager.h"
