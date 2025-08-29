@@ -10,13 +10,14 @@
 #define _DEFAULT_SOURCE /* needed for usleep() */
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <signal.h>
 #define SDL_MAIN_HANDLED /*To fix SDL's "undefined reference to WinMain" issue*/
 #include <SDL2/SDL.h>
 #include "lvgl/lvgl.h"
 #include "lvgl/examples/lv_examples.h"
 #include "lvgl/demos/lv_demos.h"
 #include "lv_drivers/sdl/sdl.h"
-
 
 // #include "ui.h"
 // #include "mcu_define.h"
@@ -61,29 +62,92 @@ static void hal_init(void);
 /**********************
  *  STATIC PROTOTYPES
  **********************/
+static SDL_mutex *progress_mutex = NULL;
+static bool should_exit = false;
 
+// 信号处理函数
+void signal_handler(int sig)
+{
+  should_exit = true;
+}
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/
 
+int my_lvgl_thread(void *e)
+{
+  while (!should_exit)
+  {
+    if (progress_mutex)
+    {
+      SDL_LockMutex(progress_mutex);
+    }
+    lv_timer_handler();
+    if (progress_mutex)
+    {
+      SDL_UnlockMutex(progress_mutex);
+    }
+    usleep(5 * 1000);
+  }
+  return 0;
+}
 int main(int argc, char **argv)
 {
   (void)argc; /*Unused*/
   (void)argv; /*Unused*/
+
+  // 设置信号处理
+  signal(SIGINT, signal_handler);
+  signal(SIGTERM, signal_handler);
 
   /*Initialize LVGL*/
   lv_init();
   /*Initialize the HAL (display, input devices, tick) for LVGL*/
   hal_init();
   // ui_init();
-  lv_demo_benchmark();
-  while(1) {
-      /* Periodically call the lv_task handler.
-       * It could be done in a timer interrupt or an OS task too.*/
-      // ui_tick();
-      lv_timer_handler();
-      usleep(5 * 1000);
+
+  // 创建互斥锁
+  progress_mutex = SDL_CreateMutex();
+  if (progress_mutex == NULL)
+  {
+    printf("Failed to create mutex\n");
+    return -1;
   }
+
+  SDL_Thread *lvgl_thread = SDL_CreateThread(my_lvgl_thread, "lvgl_thread", NULL);
+  if (lvgl_thread == NULL)
+  {
+    printf("Failed to create LVGL thread\n");
+    SDL_DestroyMutex(progress_mutex);
+    return -1;
+  }
+
+  while (!should_exit)
+  {
+    /* Periodically call the lv_task handler.
+     * It could be done in a timer interrupt or an OS task too.*/
+    // ui_tick();
+    if (progress_mutex) {
+      SDL_LockMutex(progress_mutex);
+    }
+/*USER CODE*/
+
+
+
+    if (progress_mutex) {
+      SDL_UnlockMutex(progress_mutex);
+    }
+
+    usleep(100 * 1000);
+  }
+
+  // 清理资源
+  if (progress_mutex)
+  {
+    SDL_DestroyMutex(progress_mutex);
+  }
+
+  printf("Program terminated gracefully\n");
 
   return 0;
 }
@@ -114,12 +178,12 @@ static void hal_init(void)
   disp_drv.hor_res = SDL_HOR_RES;
   disp_drv.ver_res = SDL_VER_RES;
 
-  lv_disp_t * disp = lv_disp_drv_register(&disp_drv);
+  lv_disp_t *disp = lv_disp_drv_register(&disp_drv);
 
-  lv_theme_t * th = lv_theme_default_init(disp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), LV_THEME_DEFAULT_DARK, LV_FONT_DEFAULT);
+  lv_theme_t *th = lv_theme_default_init(disp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), LV_THEME_DEFAULT_DARK, LV_FONT_DEFAULT);
   lv_disp_set_theme(disp, th);
 
-  lv_group_t * g = lv_group_create();
+  lv_group_t *g = lv_group_create();
   lv_group_set_default(g);
 
   /* Add the mouse as input device
@@ -143,12 +207,12 @@ static void hal_init(void)
   lv_indev_drv_init(&indev_drv_3); /*Basic initialization*/
   indev_drv_3.type = LV_INDEV_TYPE_ENCODER;
   indev_drv_3.read_cb = sdl_mousewheel_read;
-  lv_indev_t * enc_indev = lv_indev_drv_register(&indev_drv_3);
+  lv_indev_t *enc_indev = lv_indev_drv_register(&indev_drv_3);
   lv_indev_set_group(enc_indev, g);
 
   /*Set a cursor for the mouse*/
-  LV_IMG_DECLARE(mouse_cursor_icon); /*Declare the image file.*/
-  lv_obj_t * cursor_obj = lv_img_create(lv_scr_act()); /*Create an image object for the cursor */
-  lv_img_set_src(cursor_obj, &mouse_cursor_icon);           /*Set the image source*/
-  lv_indev_set_cursor(mouse_indev, cursor_obj);             /*Connect the image  object to the driver*/
+  LV_IMG_DECLARE(mouse_cursor_icon);                  /*Declare the image file.*/
+  lv_obj_t *cursor_obj = lv_img_create(lv_scr_act()); /*Create an image object for the cursor */
+  lv_img_set_src(cursor_obj, &mouse_cursor_icon);     /*Set the image source*/
+  lv_indev_set_cursor(mouse_indev, cursor_obj);       /*Connect the image  object to the driver*/
 }
