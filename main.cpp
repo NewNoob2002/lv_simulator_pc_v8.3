@@ -62,7 +62,6 @@ static void hal_init(void);
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static SDL_mutex *progress_mutex = NULL;
 static bool should_exit = false;
 
 // 信号处理函数
@@ -74,23 +73,6 @@ void signal_handler(int sig)
  *   GLOBAL FUNCTIONS
  **********************/
 
-int my_lvgl_thread(void *e)
-{
-  while (!should_exit)
-  {
-    if (progress_mutex)
-    {
-      SDL_LockMutex(progress_mutex);
-    }
-    lv_timer_handler();
-    if (progress_mutex)
-    {
-      SDL_UnlockMutex(progress_mutex);
-    }
-    usleep(5 * 1000);
-  }
-  return 0;
-}
 int main(int argc, char **argv)
 {
   (void)argc; /*Unused*/
@@ -106,45 +88,21 @@ int main(int argc, char **argv)
   hal_init();
   // ui_init();
 
-  // 创建互斥锁
-  progress_mutex = SDL_CreateMutex();
-  if (progress_mutex == NULL)
-  {
-    printf("Failed to create mutex\n");
-    return -1;
-  }
   App_Init();
-  SDL_Thread *lvgl_thread = SDL_CreateThread(my_lvgl_thread, "lvgl_thread", NULL);
-  if (lvgl_thread == NULL)
-  {
-    printf("Failed to create LVGL thread\n");
-    SDL_DestroyMutex(progress_mutex);
-    return -1;
-  }
 
   while (!should_exit)
   {
     /* Periodically call the lv_task handler.
      * It could be done in a timer interrupt or an OS task too.*/
     // ui_tick();
-    if (progress_mutex) {
-      SDL_LockMutex(progress_mutex);
-    }
+    
+    /* 在主线程中处理 LVGL 定时器 */
+    lv_timer_handler();
+
 /*USER CODE*/
 
-
-
-    if (progress_mutex) {
-      SDL_UnlockMutex(progress_mutex);
-    }
-
-    usleep(100 * 1000);
-  }
-
-  // 清理资源
-  if (progress_mutex)
-  {
-    SDL_DestroyMutex(progress_mutex);
+    /* 给其他任务一些时间 */
+    usleep(5 * 1000);
   }
 
   printf("Program terminated gracefully\n");

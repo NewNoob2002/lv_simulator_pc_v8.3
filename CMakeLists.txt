@@ -28,9 +28,29 @@ include_directories(
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(CMAKE_CXX_FLAGS "-O3")
 
-find_package(SDL2 REQUIRED SDL2)
-include_directories(${SDL2_INCLUDE_DIRS})
+
+# 根据操作系统配置SDL2
+if(APPLE)
+    # macOS配置
+    set(SDL_H /opt/homebrew/Cellar/sdl2/2.32.8/include)
+    include_directories(${SDL_H})
+    
+    set(SDL_LIB /opt/homebrew/Cellar/sdl2/2.32.8/lib/libSDL2-2.0.0.dylib)
+    link_libraries(${SDL_LIB})
+else()
+    # Linux配置
+    find_package(SDL2 REQUIRED SDL2)
+    include_directories(${SDL2_INCLUDE_DIRS})
+endif()
+
 add_executable(main main.cpp mouse_cursor_icon.c ${SOURCES} ${INCLUDES} ${UI_SOURCES})
 add_compile_definitions(LV_CONF_INCLUDE_SIMPLE)
-target_link_libraries(main PRIVATE SDL2 )
+
+# 根据操作系统链接SDL2库
+if(APPLE)
+    target_link_libraries(main PRIVATE ${SDL_LIB})
+else()
+    target_link_libraries(main PRIVATE SDL2)
+endif()
+
 add_custom_target (run COMMAND ${EXECUTABLE_OUTPUT_PATH}/main)
