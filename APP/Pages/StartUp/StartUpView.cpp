@@ -41,6 +41,7 @@ void StartupView::Create(lv_obj_t* root)
     lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
 }
 
+
 void StartupView::Delete()
 {
     if(ui.anim_timeline)

@@ -24,7 +24,7 @@
 #include "Common/DataProc/DataProc.h"
 // #include "Resource/ResourcePool.h"
 #include "Pages/AppFactory.h"
-// #include "Pages/StatusBar/StatusBar.h"
+#include "Pages/StatusBar/StatusBar.h"
 #include "Utils/PageManager/PageManager.h"
 
 #define ACCOUNT_SEND_CMD(ACT, CMD) \
@@ -76,9 +76,9 @@ void App_Init()
     lv_obj_set_style_bg_opa(lv_scr_act(), LV_OPA_COVER, 0);
     lv_obj_set_style_bg_color(lv_scr_act(), lv_color_black(), 0);
     lv_obj_clear_flag(scr, LV_OBJ_FLAG_SCROLLABLE);
-    // lv_disp_t *dispp = lv_disp_get_default();
-    // lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), true, LV_FONT_DEFAULT);
-    // lv_disp_set_theme(dispp, theme);
+    lv_disp_t *dispp = lv_disp_get_default();
+    lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), true, LV_FONT_DEFAULT);
+    lv_disp_set_theme(dispp, theme);
 
     /* Set root default style */
     static lv_style_t rootStyle;
@@ -92,8 +92,8 @@ void App_Init()
     /* Initialize resource pool */
     // ResourcePool::Init();
 
-    // /* Initialize status bar */
-    // Page::StatusBar_Create(lv_layer_top());
+    /* Initialize status bar */
+    Page::StatusBar_Create(lv_layer_top());
 
     /* Initialize pages */
     // manager.Install("Template",    "Pages/_Template");
