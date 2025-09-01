@@ -117,7 +117,7 @@ public:
     bool Pop();
     bool BackHome();
     const char* GetPagePrevName();
-
+    const char *GetPageCurrentAnimName(LoadAnim_t anim);
     /* Global Animation */
     void SetGlobalLoadAnimType(
         LoadAnim_t anim = LOAD_ANIM_OVER_LEFT,
