@@ -6,7 +6,8 @@
         "lvgl.h": "c",
         "vars.h": "c",
         "anim.h": "c",
-        "*.inc": "cpp"
+        "*.inc": "cpp",
+        "algorithm": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

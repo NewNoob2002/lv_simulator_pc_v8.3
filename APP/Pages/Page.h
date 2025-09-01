@@ -23,7 +23,7 @@
 #ifndef __PAGE_H
 #define __PAGE_H
 
-#define DEBUG 1
+#define PAGE_DEBUG 0
 
 
 #include <stdio.h>
@@ -31,7 +31,7 @@
 #include "Utils/PageManager/PageManager.h"
 #include "Utils/lv_ext/lv_obj_ext_func.h"
 #include "Utils/lv_ext/lv_anim_timeline_wrapper.h"
-// #include "Resource/ResourcePool.h"
-// #include "StatusBar/StatusBar.h"
+#include "Resource/ResourcePool.h"
+#include "StatusBar/StatusBar.h"
 
 #endif

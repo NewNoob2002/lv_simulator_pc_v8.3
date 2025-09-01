@@ -22,7 +22,7 @@
 */
 // #include "Config/Config.h"
 #include "Common/DataProc/DataProc.h"
-// #include "Resource/ResourcePool.h"
+#include "Resource/ResourcePool.h"
 #include "Pages/AppFactory.h"
 #include "Pages/StatusBar/StatusBar.h"
 #include "Utils/PageManager/PageManager.h"
@@ -90,7 +90,7 @@ void App_Init()
     manager.SetRootDefaultStyle(&rootStyle);
 
     /* Initialize resource pool */
-    // ResourcePool::Init();
+    ResourcePool::Init();
 
     /* Initialize status bar */
     Page::StatusBar_Create(lv_layer_top());
