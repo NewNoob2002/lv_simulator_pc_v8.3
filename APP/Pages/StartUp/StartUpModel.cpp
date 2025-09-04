@@ -28,6 +28,7 @@ void StartupModel::PlayMusic(const char* music)
 
 void StartupModel::SetStatusBarAppear(bool en)
 {
+    printf("StartupModel::SetStatusBarAppear: %d\n", en);
     DataProc::StatusBar_Info_t info;
     DATA_PROC_INIT_STRUCT(info);
     info.cmd = DataProc::STATUS_BAR_CMD_APPEAR;

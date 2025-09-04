@@ -65,6 +65,7 @@ void sdl_mousewheel_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
 
     data->state = wheel_state;
     data->enc_diff = wheel_diff;
+    //printf("wheel_state: %s, wheel_diff: %d\n", wheel_state == LV_INDEV_STATE_RELEASED?"Released" : "Pressed",wheel_diff);
     wheel_diff = 0;
 }
 
