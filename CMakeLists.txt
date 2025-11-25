@@ -12,16 +12,17 @@ file(GLOB_RECURSE SOURCES  "lv_drivers/*.c" "lvgl/demos/*.c"  "lvgl/src/*.c" )
 file(GLOB_RECURSE UI_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/APP/*.c
     ${CMAKE_CURRENT_LIST_DIR}/APP/*.cpp           
-    # ${CMAKE_CURRENT_LIST_DIR}/gui/ui/*.c
-    # ${CMAKE_CURRENT_LIST_DIR}/gui/font/*.c
+    ${CMAKE_CURRENT_LIST_DIR}/gui/ui/*.c
+    ${CMAKE_CURRENT_LIST_DIR}/gui/font/*.c
 )
 
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/APP
     ${CMAKE_CURRENT_LIST_DIR}/APP/Pages
     ${CMAKE_CURRENT_LIST_DIR}/APP/Utils
-    # ${CMAKE_CURRENT_LIST_DIR}/gui/ui
-    # ${CMAKE_CURRENT_LIST_DIR}/gui/font
+    ${CMAKE_CURRENT_LIST_DIR}/gui/ui
+    ${CMAKE_CURRENT_LIST_DIR}/gui/font
+    ${CMAKE_CURRENT_LIST_DIR}/gui/config
     )
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)

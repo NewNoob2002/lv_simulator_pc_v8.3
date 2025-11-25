@@ -15,6 +15,9 @@ void StatusBar_onAnimOpaFinish(lv_anim_t *a);
 void StatusBar_onAnimWidthFinish(lv_anim_t *a);
 void StatusBar_AnimSetWidth(void *var, int32_t v);
 void StatusBar_AnimCreate(lv_obj_t *contBatt);
+	
+	
+void poweroff_anim_create();
 #ifdef __cplusplus
 }
 #endif

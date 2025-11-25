@@ -2,20 +2,21 @@
 #define EEZ_LVGL_UI_VARS_H
 
 #include <stdint.h>
-#include <stdio.h>
 #include <stdbool.h>
-
-#define BATT_USAGE_HEIGHT (8)
-#define BATT_USAGE_WIDTH (18)
+#include "mcu_define.h"
+#include "styles.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+typedef void (*arc_completion_callback_t)(void);
+	
 // enum declarations
+extern uint8_t BATT_USAGE_HEIGHT;
+extern uint8_t BATT_USAGE_WIDTH;
+extern const uint8_t  radio_protocol_def[6];
 
-
-
+extern battery_chart_t battery_chart;
 // Flow global variables
 
 enum FlowGlobalVariables {

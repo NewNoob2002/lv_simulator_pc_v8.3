@@ -7,7 +7,8 @@
 extern "C" {
 #endif
 
-#include "mySymbol.h"
+#include "../font/mySymbol.h"
+#include "../font/myFont.h"
 
 #ifdef __cplusplus
 }

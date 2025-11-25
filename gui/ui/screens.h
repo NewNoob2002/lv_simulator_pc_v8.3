@@ -2,15 +2,24 @@
 #define EEZ_LVGL_UI_SCREENS_H
 
 #include <lvgl/lvgl.h>
-// #include "lv_obj_ext_func.h"
-// #include "lv_anim_timeline_wrapper.h"
+//#include "lv_obj_ext_func.h"
+//#include "lv_anim_timeline_wrapper.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 	/*Main Page*/
+		typedef struct battery
+		{
+			lv_obj_t *icon_battery;
+			lv_obj_t *label_useage;
+			lv_style_t style_battery;
+
+			lv_obj_t *label_text;
+			lv_obj_t *label_charge_status;
+		} battery_obj;
+		
 	typedef struct status_bar
 	{
 		/* main_status_bar */
@@ -21,16 +30,8 @@ extern "C"
 		lv_obj_t *label_position_t;
 		lv_obj_t *icon_radio_status;
 		lv_obj_t *icon_sd;
-
-		struct
-		{
-			lv_obj_t *icon_battery;
-			lv_obj_t *label_useage;
-			lv_style_t style_battery;
-
-			lv_obj_t *label_text;
-		} battery;
-
+		
+		battery_obj battery;
 	} status_bar;
 
 	typedef struct status_bottom
@@ -69,20 +70,36 @@ extern "C"
 
 	typedef struct page_workconfig
 	{
-		lv_obj_t *Button_workmodeSet;
-		lv_obj_t *Button_workmodeClose;
+		lv_obj_t *button_return;
+		
+		lv_obj_t *label_static;
+		lv_obj_t *button_static;
+		
+		lv_obj_t *label_4g;
+		lv_obj_t *button_4g;
+		
+		lv_obj_t *button_charge;
+
+	} page_workconfig_t;
+	
+	/*readioConfig Page*/
+	
+	typedef struct page_radioconfig_t
+	{
 		lv_obj_t *button_return;
 
 		lv_obj_t *lable_radio_status;
 
 		lv_obj_t *roller_radioFreq;
-		lv_obj_t *dropdown_radioProtocol;
+		lv_obj_t *roller_radioProtocol;
+		
+		lv_style_t style_roller;
 
 		lv_obj_t *button_cofirm;
 		lv_obj_t *button_close;
 
-	} page_workconfig_t;
-
+	} page_radioconfig_t;
+	
 	typedef struct page_static_settings
 	{
 		lv_obj_t *button_static_back;
@@ -103,10 +120,52 @@ extern "C"
 		lv_obj_t *button_network_back;
 
 		lv_obj_t *icon_4g;
-		lv_obj_t *label_4g;
+		lv_obj_t *label_4g_status;
 		lv_obj_t *switch_4g_onoff;
+		
+		lv_obj_t *ip_ntrip_server;
+		lv_obj_t *name_ntrip_server;
 
 	} page_network_settings_t;
+	
+	typedef struct page_batteryInfo
+	{
+		lv_obj_t *button_batteryInfo_back;
+
+		lv_obj_t *icon_battery;
+		lv_obj_t *label_battery_percent;
+		lv_obj_t *label_battery_voltage;
+		lv_obj_t *label_battery_temp;
+
+	} page_batteryInfo_t;
+	
+	
+	/*poweroff_charge Page*/
+	typedef struct poweroff_charge
+	{
+		/* poweroff_charge */
+		battery_obj battery;
+		lv_obj_t *label_charge_time;
+		
+		lv_obj_t * arc_obj;
+		lv_obj_t * label_arc_percent;
+		lv_anim_t arc_anim;
+	} poweroff_charge;
+	
+	/*poweroff page */
+	typedef struct poweroff
+	{
+		lv_obj_t * shutdown_cont;
+		lv_obj_t * bar;
+		lv_obj_t * label;
+		lv_obj_t * percentage_label;
+		
+		battery_obj battery;
+		
+		lv_anim_t anim;
+		bool anim_load;
+	}poweroff_t;
+		
 
 	typedef struct _objects_t
 	{
@@ -116,15 +175,22 @@ extern "C"
 		lv_obj_t *radio_config;
 		lv_obj_t *static_settings;
 		lv_obj_t *network_settings;
+		lv_obj_t *batteryInfo;
 		lv_obj_t *power_off;
-
+		lv_obj_t *power_off_charge;
 		/*pages_objects*/
 		page_main_t page_main;
 
 		page_workconfig_t page_work;
+		page_radioconfig_t page_radio;
 
 		page_static_settings_t page_static;
 		page_network_settings_t page_network;
+		page_batteryInfo_t page_batteryInfo;
+		
+		poweroff_t page_poweroff;
+		
+		poweroff_charge page_poweroff_charge;
 	} objects_t;
 
 	extern objects_t objects;
@@ -132,11 +198,13 @@ extern "C"
 	enum ScreensEnum
 	{
 		SCREEN_ID_MAIN = 1,
-		SCREEN_ID_WORK_CONFIG = 2,
-		SCREEN_ID_RADIO_CONFIG = 3,
-		SCREEN_ID_STATIC_SETTINGS = 4,
-		SCREEN_ID_NETWORK_SETTINGS = 5,
-		SCREEN_ID_POWER_OFF = 6,
+		SCREEN_ID_WORK_CONFIG,
+		SCREEN_ID_RADIO_CONFIG,
+		SCREEN_ID_STATIC_SETTINGS,
+		SCREEN_ID_NETWORK_SETTINGS,
+		SCREEN_ID_BATTERY_INFO,
+		SCREEN_ID_POWER_OFF,
+		SCREEN_ID_POWER_OFF_CHARGE,
 	};
 
 	void create_screen_main();
@@ -156,11 +224,16 @@ extern "C"
 
 	void create_screen_poweroff();
 	void tick_screen_poweroff();
+	
+	void create_screen_poweroff_charge();
+	void tick_screen_poweroff_charge();
 
 	void tick_screen_by_id(enum ScreensEnum screenId);
 	void tick_screen(int screen_index);
-
+	
+	void init_screen_theme();
 	void create_screens();
+
 
 #ifdef __cplusplus
 }

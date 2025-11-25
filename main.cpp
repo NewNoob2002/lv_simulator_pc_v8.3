@@ -18,8 +18,7 @@
 #include "lv_drivers/sdl/sdl.h"
 
 
-// #include "ui.h"
-// #include "mcu_define.h"
+#include "ui.h"
 /*********************
  *      DEFINES
  *********************/
@@ -75,12 +74,12 @@ int main(int argc, char **argv)
   lv_init();
   /*Initialize the HAL (display, input devices, tick) for LVGL*/
   hal_init();
-  // ui_init();
-  lv_demo_benchmark();
+  ui_init();
+  // lv_demo_benchmark();
   while(1) {
       /* Periodically call the lv_task handler.
        * It could be done in a timer interrupt or an OS task too.*/
-      // ui_tick();
+      ui_tick();
       lv_timer_handler();
       usleep(5 * 1000);
   }

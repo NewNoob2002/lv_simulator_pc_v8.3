@@ -8,9 +8,6 @@ LV_FONT_DECLARE(main_symbol2);
 LV_FONT_DECLARE(symbol_satellite);
 LV_FONT_DECLARE(symbol_radio);
 
-LV_FONT_DECLARE(Russia_font);
-LV_FONT_DECLARE(French_font);
-
 #if !defined LV_SYMBOL_SATELLITE
 #define LV_SYMBOL_SATELLITE           "\xEE\x9D\x9F" /*, 0xE8B8*/
 #endif

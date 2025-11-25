@@ -13,6 +13,8 @@
 #include "screens.h"
 #endif
 
+#include "actions.h"
+#include "anim.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
