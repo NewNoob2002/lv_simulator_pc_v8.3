@@ -1,7 +1,7 @@
 #ifndef MY_SYMBOL_H__
 #define MY_SYMBOL_H__
 
-#include "lvgl/lvgl.h"
+#include "lvgl.h"
 
 LV_FONT_DECLARE(main_symbol);
 LV_FONT_DECLARE(main_symbol2);

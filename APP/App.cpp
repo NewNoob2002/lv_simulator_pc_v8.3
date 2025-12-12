@@ -40,24 +40,6 @@ void App_Init()
     static AppFactory factory;
     static PageManager manager(&factory);
 
-#if CONFIG_MONKEY_TEST_ENABLE
-    lv_monkey_config_t config;
-    lv_monkey_config_init(&config);
-    config.type = CONFIG_MONKEY_INDEV_TYPE;
-    config.period_range.min = CONFIG_MONKEY_PERIOD_MIN;
-    config.period_range.max = CONFIG_MONKEY_PERIOD_MAX;
-    config.input_range.min = CONFIG_MONKEY_INPUT_RANGE_MIN;
-    config.input_range.max = CONFIG_MONKEY_INPUT_RANGE_MAX;
-    lv_monkey_t* monkey = lv_monkey_create(&config);
-    lv_monkey_set_enable(monkey, true);
-
-    lv_group_t* group = lv_group_create();
-    lv_indev_set_group(lv_monkey_get_indev(monkey), group);
-    lv_group_set_default(group);
-
-    LV_LOG_USER("lv_monkey test started!");
-#endif
-
     /* Make sure the default group exists */
     if(!lv_group_get_default())
     {
@@ -76,9 +58,9 @@ void App_Init()
     lv_obj_set_style_bg_opa(lv_scr_act(), LV_OPA_COVER, 0);
     lv_obj_set_style_bg_color(lv_scr_act(), lv_color_black(), 0);
     lv_obj_clear_flag(scr, LV_OBJ_FLAG_SCROLLABLE);
-    // lv_disp_t *dispp = lv_disp_get_default();
-    // lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), true, LV_FONT_DEFAULT);
-    // lv_disp_set_theme(dispp, theme);
+    lv_disp_t *disp = lv_disp_get_default();
+    lv_theme_t *theme = lv_theme_default_init(disp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), true, LV_FONT_DEFAULT);
+    lv_disp_set_theme(disp, theme);
 
     /* Set root default style */
     static lv_style_t rootStyle;

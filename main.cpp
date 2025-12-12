@@ -7,17 +7,14 @@
 /*********************
  *      INCLUDES
  *********************/
-#define _DEFAULT_SOURCE /* needed for usleep() */
-#include <stdlib.h>
+#define DEFAULT_SOURCE /* needed for usleep() */
 #include <unistd.h>
 #define SDL_MAIN_HANDLED /*To fix SDL's "undefined reference to WinMain" issue*/
 #include <SDL2/SDL.h>
 #include "lvgl/lvgl.h"
-#include "lvgl/examples/lv_examples.h"
-#include "lvgl/demos/lv_demos.h"
 #include "lv_drivers/sdl/sdl.h"
 
-
+#include "APP/App.h"
 #include "ui.h"
 /*********************
  *      DEFINES
@@ -30,12 +27,12 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static void hal_init(void);
+static void hal_init();
 
 /**********************
  *  STATIC VARIABLES
  **********************/
-// SystemInfo_t systemInfo;
+SystemInfo_t systemInfo;
 // BatteryState batteryState;
 /**********************
  *      MACROS
@@ -60,12 +57,17 @@ static void hal_init(void);
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-
+void img_test() {
+ LV_IMG_DECLARE(startUp_Logo);
+ lv_obj_t * img1 = lv_img_create(lv_scr_act());
+ lv_img_set_src(img1, &startUp_Logo);
+ lv_obj_center(img1);
+}
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/
 
-int main(int argc, char **argv)
+[[noreturn]] int main(const int argc, char **argv)
 {
   (void)argc; /*Unused*/
   (void)argv; /*Unused*/
@@ -74,17 +76,17 @@ int main(int argc, char **argv)
   lv_init();
   /*Initialize the HAL (display, input devices, tick) for LVGL*/
   hal_init();
-  ui_init();
-  // lv_demo_benchmark();
-  while(1) {
+ img_test();
+  // ui_init();
+ // App_Init();
+  while(true) {
       /* Periodically call the lv_task handler.
        * It could be done in a timer interrupt or an OS task too.*/
-      ui_tick();
+      // ui_tick();
       lv_timer_handler();
+      if (systemInfo.powerMonitor.PowerKey_PressCount < 100)systemInfo.powerMonitor.PowerKey_PressCount ++;
       usleep(5 * 1000);
   }
-
-  return 0;
 }
 
 /**********************
@@ -95,7 +97,7 @@ int main(int argc, char **argv)
  * Initialize the Hardware Abstraction Layer (HAL) for the LVGL graphics
  * library
  */
-static void hal_init(void)
+static void hal_init()
 {
   /* Use the 'monitor' driver which creates window on PC's monitor to simulate a display*/
   sdl_init();
@@ -103,7 +105,7 @@ static void hal_init(void)
   /*Create a display buffer*/
   static lv_disp_draw_buf_t disp_buf1;
   static lv_color_t buf1_1[SDL_HOR_RES * 100];
-  lv_disp_draw_buf_init(&disp_buf1, buf1_1, NULL, SDL_HOR_RES * 100);
+  lv_disp_draw_buf_init(&disp_buf1, buf1_1, nullptr, SDL_HOR_RES * 100);
 
   /*Create a display*/
   static lv_disp_drv_t disp_drv;

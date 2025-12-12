@@ -9,25 +9,17 @@
 extern "C" {
 #endif
 
-extern void action_switch_to_work_config(lv_event_t * e);
-extern void action_switch_to_radio_config(lv_event_t * e);
-	
-extern void action_switch_to_static_settings(lv_event_t * e);
+extern void action_switch_to_screen_by_id(lv_event_t *e);
 extern void action_turn_onoff_static(lv_event_t *e);
-	
-extern void action_switch_to_network_settings(lv_event_t * e);
 extern void action_turn_onoff_4g(lv_event_t *e);
-	
-extern void action_switch_to_main(lv_event_t * e);
-extern void action_switch_to_battery(lv_event_t *e);
 	
 extern void action_radio_roller(lv_event_t *e) ;
 extern void action_radio_protocol_roller(lv_event_t *e);
 extern void action_radio_set(lv_event_t *e);
 extern void action_radio_close(lv_event_t *e);
 
-extern void lv_update_battery(pBatteryState p_batteryState, battery_obj *battery);
-extern void lv_update_battery_off(pBatteryState p_batteryState, battery_obj *battery);
+extern void lv_update_battery(pBatteryInfo_t p_batteryState, battery_obj *battery);
+extern void lv_update_battery_off(pBatteryInfo_t p_batteryState, battery_obj *battery);
 extern void Page_Main_Update();
 	
 extern void Page_RadioConfig_Update();

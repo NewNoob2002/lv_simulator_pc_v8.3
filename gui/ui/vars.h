@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "mcu_define.h"
 #include "styles.h"
 
 #ifdef __cplusplus
@@ -11,12 +10,17 @@ extern "C" {
 #endif
 typedef void (*arc_completion_callback_t)(void);
 	
+typedef struct {
+    lv_obj_t *chart;
+    lv_chart_series_t *voltage_series;
+    lv_chart_series_t *current_series;
+} battery_chart_t;
+	
 // enum declarations
 extern uint8_t BATT_USAGE_HEIGHT;
 extern uint8_t BATT_USAGE_WIDTH;
 extern const uint8_t  radio_protocol_def[6];
 
-extern battery_chart_t battery_chart;
 // Flow global variables
 
 enum FlowGlobalVariables {
