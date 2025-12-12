@@ -15,7 +15,6 @@
 #include "lv_drivers/sdl/sdl.h"
 
 #include "APP/App.h"
-#include "ui.h"
 /*********************
  *      DEFINES
  *********************/
