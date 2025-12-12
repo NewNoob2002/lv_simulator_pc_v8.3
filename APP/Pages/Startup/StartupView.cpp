@@ -1,58 +1,56 @@
 #include "StartupView.h"
-#include "Version.h"
-#include "lvgl/src/font/lv_font.h"
-#include "lvgl/src/misc/lv_color.h"
-#include <stdio.h>
+#include "mcu_config.h"
+#include "src/core/lv_obj_style.h"
+#include "src/misc/lv_area.h"
+#include "src/misc/lv_color.h"
 
 using namespace Page;
 
-#define COLOR_ORANGE    lv_color_hex(0xff931e)
+#define COLOR_ORANGE lv_color_hex(0xff931e)
 
-void StartupView::Create(lv_obj_t* root)
-{
-    lv_obj_t* cont = lv_obj_create(root);
-    lv_obj_remove_style_all(cont);
-    lv_obj_clear_flag(cont, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_size(cont, 250, 100);
-    lv_obj_set_style_border_color(cont, COLOR_ORANGE, 0);
-    lv_obj_set_style_border_side(cont, LV_BORDER_SIDE_BOTTOM, 0);
-    lv_obj_set_style_border_width(cont, 3, 0);
-    lv_obj_set_style_border_post(cont, true, 0);
-    lv_obj_center(cont);
-    ui.cont = cont;
+void StartupView::Create(lv_obj_t *root) {
 
-    lv_obj_t* label = lv_label_create(cont);
-    lv_obj_set_style_text_font(label, &lv_font_montserrat_36, 0);
-    // lv_obj_set_style_text_font(label, ResourcePool::GetFont("agencyb_36"), 0);
-    lv_obj_set_style_text_color(label, lv_palette_main(LV_PALETTE_GREEN), 0);
-    lv_label_set_text(label, VERSION_FIRMWARE_NAME);
-    lv_obj_center(label);
-    ui.labelLogo = label;
 
-    ui.anim_timeline = lv_anim_timeline_create();
+  lv_obj_t *time = lv_label_create(root);
+  lv_label_set_text(time, "0:00:00");
+  lv_obj_set_style_text_font(time,
+                             ResourcePool::GetFont("Oswald_Bold_18"), 0);
+  lv_obj_set_style_text_color(time, lv_color_hex(0xffffff), 0);
+  lv_obj_align(time, LV_ALIGN_TOP_LEFT, 10, 10);
+  ui.time = time;
 
-    lv_coord_t height = lv_obj_get_style_height(ui.cont, 0);
-    lv_coord_t y = lv_obj_get_y(ui.labelLogo);
+  lv_obj_t *img = lv_img_create(root);
+  lv_img_set_src(img, ResourcePool::GetImage("battery"));
+  lv_img_t* img_ext = (lv_img_t*)img;
+  lv_obj_set_size(img, img_ext->w, img_ext->h);
+  lv_obj_align(img, LV_ALIGN_TOP_RIGHT, -10, 10);
+  ui.battery.img = img;
 
-#define ANIM_DEF(start_time, obj, attr, start, end) \
-     {start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
+  lv_obj_t* obj = lv_obj_create(img);
+  lv_obj_remove_style_all(obj);
+  lv_obj_set_style_bg_color(obj, lv_color_hex(0x4CAF50), 0);
+  lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0);
+  lv_obj_set_style_opa(obj, LV_OPA_COVER, 0);
+  lv_obj_set_size(obj, 16, 8);
+  lv_obj_align(obj, LV_ALIGN_BOTTOM_MID, 0, -4);
+  ui.battery.objUsage = obj;
+  // Firmware version label
+  lv_obj_t *label_firmware = lv_label_create(root);
+  lv_label_set_text_fmt(label_firmware, "Rev:%s", SOFTWARE_VERSION);
+  lv_obj_set_style_text_font(label_firmware,
+                             ResourcePool::GetFont("Oswald_Bold_12"), 0);
+  lv_obj_set_style_text_color(label_firmware, lv_palette_main(LV_PALETTE_GREY),
+                              0);
+  lv_obj_align(label_firmware, LV_ALIGN_BOTTOM_LEFT, 10, 0);
 
-    lv_anim_timeline_wrapper_t wrapper[] =
-    {
-        ANIM_DEF(0, ui.cont, width, 0, lv_obj_get_style_width(ui.cont, 0)),
-        ANIM_DEF(500, ui.labelLogo, y, lv_obj_get_style_height(ui.cont, 0), 0),
-        LV_ANIM_TIMELINE_WRAPPER_END
-    };
-
-    lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
+  // Compile time label
+  lv_obj_t *label_compile_time = lv_label_create(root);
+  lv_label_set_text(label_compile_time, __DATE__ " " __TIME__);
+  lv_obj_set_style_text_font(label_compile_time,
+                             ResourcePool::GetFont("Oswald_Bold_12"), 0);
+  lv_obj_set_style_text_color(label_compile_time,
+                              lv_palette_main(LV_PALETTE_GREY), 0);
+  lv_obj_align(label_compile_time, LV_ALIGN_BOTTOM_RIGHT, -10, 0);
 }
 
-void StartupView::Delete()
-{
-    if(ui.anim_timeline)
-    {
-        lv_anim_timeline_del(ui.anim_timeline);
-        ui.anim_timeline = nullptr;
-        printf("anim_timeline deleted\n");
-    }
-}
+void StartupView::Delete() {}

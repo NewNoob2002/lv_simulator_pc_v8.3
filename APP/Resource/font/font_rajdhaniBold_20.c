@@ -170,9 +170,9 @@ extern const lv_font_t lv_font_montserrat_18;
 
 /*Initialize a public general font descriptor*/
 #if LVGL_VERSION_MAJOR >= 8
-const lv_font_t Rajdhani_Bold_0_9_20 = {
+const lv_font_t font_rajdhaniBold_20 = {
 #else
-lv_font_t Rajdhani_Bold_0_9_20 = {
+lv_font_t font_rajdhaniBold_20 = {
 #endif
     .get_glyph_dsc = lv_font_get_glyph_dsc_fmt_txt,    /*Function pointer to get glyph's data*/
     .get_glyph_bitmap = lv_font_get_bitmap_fmt_txt,    /*Function pointer to get glyph's bitmap*/
@@ -194,4 +194,4 @@ lv_font_t Rajdhani_Bold_0_9_20 = {
 
 
 
-#endif /*#if RAJDHANI_BOLD_0_9_20*/
+#endif /*#if font_rajdhaniBold_20*/

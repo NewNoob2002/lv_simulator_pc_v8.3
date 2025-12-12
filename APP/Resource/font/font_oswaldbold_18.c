@@ -3109,9 +3109,9 @@ extern const lv_font_t lv_font_montserrat_18;
 
 /*Initialize a public general font descriptor*/
 #if LVGL_VERSION_MAJOR >= 8
-const lv_font_t Oswald_Bold_18 = {
+const lv_font_t font_oswaldBold_18 = {
 #else
-lv_font_t Oswald_Bold_18 = {
+lv_font_t font_oswaldBold_18 = {
 #endif
     .get_glyph_dsc = lv_font_get_glyph_dsc_fmt_txt,    /*Function pointer to get glyph's data*/
     .get_glyph_bitmap = lv_font_get_bitmap_fmt_txt,    /*Function pointer to get glyph's bitmap*/

@@ -21,10 +21,16 @@ do{\
     static void Resource_Init()
     {
         /* Import Fonts */
-        // IMPORT_FONT(bahnschrift_13);
-
+        IMPORT_FONT(oswaldBold_12);
+        IMPORT_FONT(oswaldBold_18);
+        IMPORT_FONT(rajdhaniBold_20);
+        IMPORT_FONT(rajdhaniBold_40);
         // /* Import Images */
-        // IMPORT_IMG(alarm);
+        IMPORT_IMG(battery);
+        IMPORT_IMG(location);
+        IMPORT_IMG(menu);
+        IMPORT_IMG(pause);
+        IMPORT_IMG(start);
     }
 
 } /* extern "C" */

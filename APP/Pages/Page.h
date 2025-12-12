@@ -27,7 +27,7 @@
 #include "Utils/PageManager/PageManager.h"
 #include "Utils/lv_ext/lv_obj_ext_func.h"
 #include "Utils/lv_ext/lv_anim_timeline_wrapper.h"
-// #include "Resource/ResourcePool.h"
+#include "Resource/ResourcePool.h"
 // #include "StatusBar/StatusBar.h"
 
 #endif

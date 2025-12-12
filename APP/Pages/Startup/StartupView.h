@@ -15,10 +15,16 @@ public:
 public:
     struct
     {
-        lv_obj_t* cont;
-        lv_obj_t* labelLogo;
-
-        lv_anim_timeline_t* anim_timeline;
+        struct
+        {
+            lv_obj_t* img;
+            lv_obj_t* objUsage;
+            lv_obj_t* label;
+        } battery;
+        lv_obj_t *arc;
+        lv_obj_t *arc_percent;
+        lv_anim_t arc_anim;
+        lv_obj_t *time;
     } ui;
 
 private:
