@@ -57,12 +57,7 @@ SystemInfo_t systemInfo;
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-void img_test() {
- LV_IMG_DECLARE(startUp_Logo);
- lv_obj_t * img1 = lv_img_create(lv_scr_act());
- lv_img_set_src(img1, &startUp_Logo);
- lv_obj_center(img1);
-}
+
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/
@@ -76,9 +71,8 @@ void img_test() {
   lv_init();
   /*Initialize the HAL (display, input devices, tick) for LVGL*/
   hal_init();
- img_test();
   // ui_init();
- // App_Init();
+  App_Init();
   while(true) {
       /* Periodically call the lv_task handler.
        * It could be done in a timer interrupt or an OS task too.*/
